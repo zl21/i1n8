@@ -1,6 +1,14 @@
-# i18n
+<!--
+ * @Author: your name
+ * @Date: 2021-05-24 13:17:25
+ * @LastEditTime: 2021-05-24 14:26:30
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /i18n/README.md
+-->
+# internationalizationSearch
 
-> international for oms2.0
+> @burgeon/internationalization
 
 ## Build Setup
 
@@ -17,5 +25,8 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+## 版本说明
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+|  Version  |  Description  |
+|  ---  | --- |
+| v1.0.0 |  first version   |
