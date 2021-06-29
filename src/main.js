@@ -6,7 +6,7 @@ import ArkUi from '@syman/ark-ui'
 import less from 'less'
 import '@syman/ark-ui/dist/styles/ark-ui.css'
 import '@syman/ark-ui/dist/styles/bjIconfonts/iconfont.css';
-import './assets/reset.css'
+import './assets/reset.less'
 
 Vue.use(less);
 Vue.use(ArkUi);

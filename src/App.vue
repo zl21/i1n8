@@ -40,7 +40,7 @@
         <TabPane label="Use" name="name2" icon="ios-at">
           <div class="name2">
             <h3>建议您在代码中这样使用：</h3>
-            <label for="">{{ `window.vmI18n.t('${msg}')` }}</label>
+            <label for="">{{ `$i18n.t('${msg}')` }}</label>
           </div>
         </TabPane>
         <TabPane label="Product manuals" name="name3" icon="ios-book">
@@ -83,7 +83,8 @@
 <script>
 import HelloWorld from "./components/HelloWorld";
 import ProManuals from "./components/ProManuals";
-import En from "./mock/en_US/en.js";
+// import En from "./mock/en_US/en.js";
+import En from "@burgeon/internationalization/i18n/langs/zh_CN/zh.js";
 var comType = ["object", "array"];
 
 export default {
@@ -241,7 +242,7 @@ export default {
   }
   .jss3 {
     overflow: hidden;
-    min-height: 48px;
+    min-height: 65vh;
     -webkit-overflow-scrolling: touch;
     display: flex;
     justify-content: center;

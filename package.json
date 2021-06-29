@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@burgeon/internationalization": "^1.0.46",
     "@syman/ark-ui": "^1.1.28",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
