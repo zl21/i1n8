@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-05-24 13:17:25
- * @LastEditTime: 2021-05-24 14:26:30
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: /i18n/README.md
--->
 # internationalizationSearch
 
 > @burgeon/internationalization
@@ -30,3 +22,4 @@ npm run build --report
 |  Version  |  Description  |
 |  ---  | --- |
 | v1.0.0 |  first version   |
+| v1.0.1 |  取消mock数据、样式调整   |

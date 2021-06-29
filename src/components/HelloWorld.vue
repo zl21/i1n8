@@ -2,7 +2,10 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <ul>
+    <div class="hw-table">
+      <Table border :columns="columns" :data="data"></Table>
+    </div>
+    <!--     <ul>
       <li>
         <a
           href="http://knowledge.ark.burgeononline.com/repository#/entryComponents/2/908030/2/2061"
@@ -36,7 +39,8 @@
         </a>
       </li>
       <br />
-      <!-- <li>
+    </ul> -->
+    <!-- <li>
         <a
           href="http://vuejs-templates.github.io/webpack/"
           target="_blank"
@@ -44,15 +48,17 @@
           Docs for This Template
         </a>
       </li> -->
-    </ul>
   </div>
 </template>
 
 <script>
+import { columns, data } from '../config'
 export default {
   name: "HelloWorld",
   data() {
     return {
+      columns,
+      data,
       msg: "Welcome to @burgeon/internationalization",
     };
   },
@@ -61,6 +67,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.hw-table {
+  padding: 0 35vw;
+}
+
 h1,
 h2 {
   padding: 10px 0;
