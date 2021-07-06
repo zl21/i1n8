@@ -7,7 +7,24 @@
         <label>OMS2.0语言包查询站点</label>
       </div>
       <div class="selectDom">
-        <Select
+        <DropDownSelectFilter
+          style="width: '100%'"
+          :single="true"
+          :data="data"
+          :totalRowCount="totalRowCount"
+          :pageSize="pageSize"
+          :showColnameKey="'show'"
+          @on-page-change="changePage"
+          @on-input-value-change="inputValueChange"
+          @on-fkrp-selected="fkrpSelected"
+          :dataEmptyMessage="dataEmptyMessage"
+          :AutoData="AutoData"
+          :columnsKey="columnsKey"
+          :hidecolumns="hidecolumns"
+          isBackRowItem
+        >
+        </DropDownSelectFilter>
+        <!-- <Select
           v-model="selectValue"
           filterable
           remote
@@ -28,8 +45,9 @@
             :key="index"
             >{{ option.label }}</Option
           >
-        </Select>
-        <Button @click="search()">搜索</Button>
+        </Select> -->
+
+        <!-- <Button @click="search()">搜索</Button> -->
       </div>
     </div>
     <div class="jss3">
@@ -84,8 +102,12 @@
 import HelloWorld from "./components/HelloWorld";
 import ProManuals from "./components/ProManuals";
 // import En from "./mock/en_US/en.js";
-import En from "@burgeon/internationalization/i18n/langs/zh_CN/zh.js";
+// import En from "@burgeon/internationalization/i18n/langs/zh_CN/zh.js";
+import i18n from "@burgeon/internationalization/i18n"
 var comType = ["object", "array"];
+const lan = i18n.locale;
+const lanData = i18n.messages[lan];
+import { debounce } from 'lodash'
 
 export default {
   name: "App",
@@ -95,11 +117,58 @@ export default {
   },
   data() {
     return {
+      // columns: ['name', 'value'], // 表头
+      dataEmptyMessage: '无',
+      AutoData: [
+        /* {
+          "id": 0,
+          "name": "03",
+          "value": "北京仓库"
+        }, */
+      ],
+      pageSize: 10,
+      pageIndex: 1,
+      totalRowCount: 0,
+      totalData: [],
+      columnsKey: ['label'],
+      hidecolumns: ['ID'],
+      data: {
+        "start": 0,
+        "tabth": [
+          {
+            "colname": "ID",
+            "name": "序号",
+            "show": false
+          },
+          {
+            "colname": "label",
+            "name": "文本",
+            "show": true
+          },
+          {
+            "colname": "value",
+            "name": "编码",
+            "show": false
+          },
+        ],
+        "row": [
+          /* {
+            "ENAME": {
+              "val": "总部"
+            },
+            "ECODE": {
+              "val": "00"
+            },
+            "ID": {
+              "val": "4919"
+            }
+          } */,]
+      },
       selectValue: "",
       loading: false,
       options: [],
       showPane: "name1",
-      currentLan: En,
+      currentLan: lanData,
       handelLanObj: {},
       handelLanList: [],
       msg: "",
@@ -115,22 +184,7 @@ export default {
       }
     },
     remoteMethod(query) {
-      if (query !== "") {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          const cl = this.handelLanObj;
-          for (const key in cl) {
-            let item = { label: cl[key], value: key };
-            this.handelLanList.push(item);
-          }
-          this.options = this.handelLanList.filter(
-            (item) => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-          );
-        }, 200);
-      } else {
-        this.options = [];
-      }
+
     },
     onChange(val) {
       this.msg = val.value;
@@ -142,15 +196,69 @@ export default {
       //   jss2.setAttribute("style", "height:350px");
       // } else jss2.setAttribute("style", "height:300px");
     },
-    onQueryChange(val) {},
+    onQueryChange(val) { },
+    changePage(e) {
+      this.pageIndex = e;
+      const startIndex = this.pageSize * (e - 1) + 1;
+      const endIndex = e * this.pageSize;
+      this.totalRowCount = this.totalData.length;
+      this.$nextTick(() => {
+        this.data.row = JSON.parse(JSON.stringify(this.totalData.slice(startIndex - 1, endIndex)));
+        // bug：切到第二页loading一直在
+      })
+      // this.$set(this.data, 'row', this.totalData.slice(startIndex - 1, endIndex));
+    },
+    fkrpSelected(val) {
+      const key = typeof val[0].rowItem.value == 'object' ? typeof val[0].rowItem.value.val : val[0].rowItem.value;
+      if (key) {
+        this.msg = key;
+        this.showPane = "name2";
+      } else {
+        this.$Message.warning("请选择");
+        return;
+      }
+    },
+    inputValueChange: debounce(function (query) {
+      if (query !== "") {
+        this.loading = true;
+        this.loading = false;
+        const cl = JSON.parse(JSON.stringify(this.totalData));
+        cl.map(i => {
+          i.ID = i.ID.val;
+          i.label = i.label.val;
+          i.value = i.value.val;
+        })
+        const a1 = cl.filter(
+          (item) => item.label.replace(/(^\s*)|(\s*$)/g, "").toLowerCase().indexOf(query.toLowerCase()) > -1
+        );
+        const a2 = cl.filter(
+          (item) => item.value.replace(/(^\s*)|(\s*$)/g, "").toLowerCase().indexOf(query.toLowerCase()) > -1
+        );
+        this.AutoData = a1.concat(a2);
+      } else {
+        this.AutoData = [];
+      }
+    }, 500),
     handelLan() {
       const _this = this;
       const cl = _this.handelLanObj;
       // let aa = Object.entries(cl);
-      for (const key in cl) {
+      /* for (const key in cl) {
         let item = { label: cl[key], value: key };
-        _this.handelLanList.push(item);
+        // _this.handelLanList.push(item);
+
+      } */
+      let row = [];
+      const arr = Object.keys(cl);
+      for (let i = 0; i < arr.length; i++) {
+        const item = {};
+        item.ID = { val: i + 1 };
+        item.value = { val: arr[i] };
+        item.label = { val: cl[arr[i]] };
+        row.push(item)
       }
+      this.totalData = row;
+      this.changePage(1);
     },
     plat(obj, prekey, resobj) {
       prekey = prekey ? prekey + "." : "";
@@ -167,10 +275,15 @@ export default {
   },
   mounted() {
     this.plat(this.currentLan, "", this.handelLanObj);
-    // this.handelLan();
+    this.handelLan();
   },
 };
 </script>
+<style>
+html {
+  overflow-x: hidden;
+}
+</style>
 <style lang="less" scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -211,15 +324,18 @@ export default {
       }
     }
     .selectDom {
-      width: 50vw;
-      height: 4vh;
+      width: 80vw;
+      height: 6vh;
       position: relative;
-      top: 48%;
+      top: 52%;
       left: 50%;
       transform: translateY(-50%) translateX(-12vw);
       display: flex;
       .ark-select.ark-select-single.ark-select-default {
         width: 300px;
+      }
+      /deep/ #dropDownSelectFilter {
+        width: 25vw;
       }
       /deep/.ark-select-selection {
         border: solid 1px rgb(3, 102, 231);

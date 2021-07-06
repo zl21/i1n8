@@ -23,3 +23,4 @@ npm run build --report
 |  ---  | --- |
 | v1.0.0 |  first version   |
 | v1.0.1 |  取消mock数据、样式调整   |
+| v1.0.2 |  替换drp组件、展示可用KEY列表   |

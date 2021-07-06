@@ -63,8 +63,68 @@ const data = [
 	},
 ]
 
+const columnsKey = [
+	{
+		title: ' ',
+		type: 'index',
+		align: 'center',
+	},
+	{
+		align: 'center',
+		// tdAlign: 'left',
+		title: 'KEY (范围)',
+		key: 'key',
+	},
+	{
+		align: 'center',
+		// tdAlign: 'left',
+		title: '所属对象',
+		key: 'obj',
+	},
+];
+
+const dataKey = [
+	{
+		key: '任意未被使用的字符串',
+		obj: 'common',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'other',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'btn',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'pHolder',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'panel_label',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'form_label',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'table_label',
+	},
+	{
+		key: '任意未被使用的字符串',
+		obj: 'modalTitle',
+	},
+	{
+		key: '任意未被使用的字符串 | gc ~ gz',
+		obj: 'modalTips',
+	},
+]
 
 export {
+	columnsKey,
+	dataKey,
 	columns,
 	data,
 }
